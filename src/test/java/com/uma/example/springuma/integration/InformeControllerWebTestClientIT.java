@@ -117,7 +117,7 @@ public class InformeControllerWebTestClientIT extends AbstractIntegration {
                     assertTrue(prediccion != null && !prediccion.isEmpty(),
                             "El informe debe tener una predicción");
 
-                    assertTrue(prediccion.contains("Cancer") || prediccion.contains("Not Cancer"),
+                    assertTrue(prediccion.contains("Cancer") || prediccion.contains("Not cancer"),
                             "La predicción debe indicar el estado del diagnóstico");
                 });
     }
