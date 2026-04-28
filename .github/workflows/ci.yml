@@ -51,3 +51,11 @@ jobs:
         with:
           name: jacoco-report
           path: target/site/jacoco/
+
+      - name: Commit and Push badge
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .github/badges/*.svg
+          git commit -m "Update coverage badge" || exit 0
+          git push

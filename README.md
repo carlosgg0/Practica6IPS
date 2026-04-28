@@ -1,7 +1,8 @@
 # SpringUMA — Medical Records System
 
 ![Build Status](https://github.com/carlosgg0/Practica6IPS/actions/workflows/ci.yml/badge.svg)
-![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/carlosgg0/GIST_ID/raw/coverage.json)
+![Coverage](.github/badges/jacoco.svg)
+![Branches](.github/badges/branches.svg)
 
 A Spring Boot REST API that models a small medical records system. Built as a practice project for the **Software Maintenance and Testing** course at the University of Málaga.
 
