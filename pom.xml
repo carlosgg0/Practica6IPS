@@ -14,7 +14,7 @@
     <name>springuma</name>
     <description>Practica 6 de CI/CDI with integrationtesting</description>
     <properties>
-        <!--<java.version>21</java.version>-->
+        <java.version>21</java.version>
     </properties>
     <dependencies>
         <dependency>

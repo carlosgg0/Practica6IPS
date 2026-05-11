@@ -29,17 +29,20 @@ jobs:
           ./mvnw verify --no-transfer-progress -Djacoco.skip=false
 
       - name: Publish Test Report
-        uses: ctrf-io/github-test-reporter@v1
+        uses: mikepenz/action-junit-report@v4
         with:
-          report-path: './ctrf/*.json'
-          github-report: true
+          report_paths: '**/target/*-reports/TEST-*.xml'
+          annotate_only: false
+          detailed_summary: true
         if: always()
 
       - name: Generate JaCoCo Badge
+        id: jacoco
         uses: cicirello/jacoco-badge-generator@v2
         with:
           generate-branches-badge: true
           jacoco-csv-file: target/site/jacoco/jacoco.csv
+          badges-directory: .github/badges
 
       - name: Log coverage percentage
         run: |
