@@ -10,3 +10,17 @@ rules:
   - apiGroups: [""]
     resources: ["pods", "services"]
     verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: gha-runner-role-binding
+  namespace: ips
+subjects:
+- kind: ServiceAccount
+  name: self-hosted-gha-rs-no-permission # El nombre que aparecía en tu error
+  namespace: ips
+roleRef:
+  kind: Role
+  name: gha-runner-role # El nombre del Role que ya tienes definido
+  apiGroup: rbac.authorization.k8s.io
