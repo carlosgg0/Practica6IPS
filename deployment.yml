@@ -17,7 +17,7 @@ spec:
         - name: mi-registro-secreto
       containers:
       - name: ips-p7-medicos  # This should match the var DEPLOYMENT_NAME
-        image: carlosgg0/Practica6IPS:latest # TODO: modify with your repo
+        image: carlosgg0/practica6ips:latest # TODO: modify with your repo
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
