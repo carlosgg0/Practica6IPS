@@ -9,7 +9,8 @@ on:
 
 env:
   # Dynamic construction: username/github-repo-name
-  IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}
+  # IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}
+  IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/practica6ips # Todo minúsculas 
 
 jobs:
   build-and-publish:
