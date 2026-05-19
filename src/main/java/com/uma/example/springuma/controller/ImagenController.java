@@ -18,6 +18,8 @@ import com.uma.example.springuma.model.Imagen;
 import com.uma.example.springuma.model.ImagenService;
 import com.uma.example.springuma.model.Paciente;
 
+import io.micrometer.core.annotation.Timed;
+
 @RestController
 public class ImagenController {
 
@@ -39,6 +41,7 @@ public class ImagenController {
         return imagenService.getImagen(id);
     }
 
+    @Timed("image.predict.latency")
     @GetMapping("/imagen/predict/{id}")
     public ResponseEntity<?> getImagenPrediction(@PathVariable("id") Long id) {
         try {
