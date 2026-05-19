@@ -1,0 +1,47 @@
+groups:
+  - name: containers
+    rules:
+      - alert: HighCPUUsage
+        # Condición: uso de CPU > 85% durante 5 minutos
+        expr: rate(container_cpu_usage_seconds_total[5m]) > 0.85
+        for: 5m
+        labels:
+          severity: warning
+          team: devops
+        annotations:
+          summary: "Uso de CPU alto en {{ $labels.container }}"
+          description: "El contenedor {{ $labels.container }} en el pod {{ $labels.pod }} está usando más del 85% de CPU durante los últimos 5 minutos."
+
+  - name: hospital-alerts
+    rules:
+      - alert: HighMemoryUsage
+        # Condición: ¿El uso de RAM es > 30% del límite asignado?
+        expr: (jvm_memory_used_bytes{area="heap"} / jvm_memory_max_bytes{area="heap"}) * 100 > 30
+        # Tiempo de espera: La condición debe cumplirse durante 2 minutos seguidos
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Alto consumo de memoria en el contenedor {{ $labels.instance }}"
+          description: "La aplicación está utilizando {{ $value | printf \"%.2f\" }}% de su memoria disponible durante más de 2 minutos."
+      
+      - alert: LatenciaElevadaPrediccion
+        expr: |
+          rate(image_predict_latency_seconds_sum{job="spring-boot-hospital"}[1m]) 
+          / 
+          rate(image_predict_latency_seconds_count{job="spring-boot-hospital"}[1m]) > 0.5
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Latencia elevada en el endpoint de predicción"
+          description: "La latencia media de las predicciones es de {{ $value }}s, superando el umbral de 0.5s durante más de 1 minuto."
+
+      - alert: ServicioCaido
+        expr: up{job="spring-boot-hospital"} == 0
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: "El servicio HOSPITAL está caído"
+          description: "La instancia {{ $labels.instance }} del job {{ $labels.job }} no responde desde hace más de 30 segundos."

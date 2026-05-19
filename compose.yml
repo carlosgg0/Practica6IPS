@@ -1,11 +1,12 @@
 services:
+
   # Prometheus - Recolección de métricas
   prometheus:
     image: prom/prometheus:v3.7.0
     container_name: prometheus
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
-      # - ./alerts.yml:/etc/prometheus/alerts.yml
+      - ./alerts.yml:/etc/prometheus/alerts.yml
       - prometheus-data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
@@ -14,6 +15,7 @@ services:
       - "9090:9090"
     networks:
       - monitoring
+
   # Node Exporter - Métricas del sistema
   node-exporter:
     image: prom/node-exporter:v1.10.0
@@ -22,6 +24,7 @@ services:
       - "9100:9100"
     networks:
       - monitoring
+
   # cAdvisor - Métricas de contenedores
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:v0.47.0
@@ -39,6 +42,7 @@ services:
       - /dev/kmsg
     networks:
       - monitoring
+
   # Grafana - Visualización
   grafana:
     image: grafana/grafana:12.3.0
@@ -56,6 +60,7 @@ services:
       - prometheus
     networks:
       - monitoring
+
   # Aplicación de ejemplo de libros con métricas expuestas en /actuator/prometheus
   hospital:
     image: app-hospital
@@ -64,18 +69,19 @@ services:
       - "8080:8080"
     networks:
       - monitoring
+
   # Alertmanager - Gestión de alertas
-  # alertmanager:
-  #   image: prom/alertmanager:v0.28.0
-  #   container_name: alertmanager
-  #   volumes:
-  #     - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml
-  #   command:
-  #     - '--config.file=/etc/alertmanager/alertmanager.yml'
-  #   ports:
-  #     - "9093:9093"
-  #   networks:
-  #     - monitoring
+  alertmanager:
+    image: prom/alertmanager:v0.28.0
+    container_name: alertmanager
+    volumes:
+      - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+    ports:
+      - "9093:9093"
+    networks:
+      - monitoring
 
 networks:
   monitoring:
